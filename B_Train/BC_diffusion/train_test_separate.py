@@ -217,7 +217,7 @@ def sample_different_sizes_and_save(model, nodes_dist, args, device, prop_dist,
                           batch_size * counter, name=args.ion)
 
 
-def analyze_and_save(epoch, model_sample, args, device, prop_dist,
+def analyze_and_save(epoch, model_sample, args, device, prop_dist, context=None,
                      n_samples=1000, batch_size=100):
     print(f'Analyzing molecule stability at epoch {epoch}...')
     batch_size = min(batch_size, n_samples)
@@ -226,7 +226,7 @@ def analyze_and_save(epoch, model_sample, args, device, prop_dist,
     for i in range(int(n_samples / batch_size)):
         # anion_nodesxsample = nodes_dist.sample(batch_size)
         # cation_nodesxsample = nodes_dist.sample(batch_size)
-        one_hot, charges, x, node_mask = sample_separate(args, device, model_sample, prop_dist)
+        one_hot, charges, x, node_mask = sample_separate(args, device, model_sample, prop_dist, context=context)
 
         molecules['one_hot'].append(one_hot.detach().cpu())
         molecules['x'].append(x.detach().cpu())
